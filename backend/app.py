@@ -62,8 +62,22 @@ def delete_show(id):
     db.deleteById('shows', int(id))
     return create_response(message="Show deleted")
 
-
 # TODO: Implement the rest of the API here!
+
+@app.route("/shows/<id>", methods=['GET'])
+def get_show(id):
+    if db.getById('shows', int(id)) is None:
+        return create_response(status=404, message="No show with this id exists")
+    return db.getById('shows', int(id))
+    return create_response(message="Returned show")
+
+@app.route("/shows?minEpisodes=<episodes_seen>", methods=['GET'])
+def min_episodes(episodes_seen):
+    if episodes_seen == 0:
+        return create_response(status=404, message="No TV shows with 0 episodes.")
+    if db.getByMinEpisodes('shows', int(episodes_seen)) is None:
+        return create_response(status=404, message="No TV shows with more than this number of episodes.")
+    return db.getByMinEpisodes('shows', int(episodes_seen))
 
 """
 ~~~~~~~~~~~~ END API ~~~~~~~~~~~~

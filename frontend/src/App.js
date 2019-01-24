@@ -12,6 +12,11 @@ class App extends Component {
         {id: 3, name: "Black Mirror", episodes_seen: 3},
       ]
     }
+    this.complete = {
+      status: [
+        {success: true}
+      ]
+    }
   }
 
   render() {
@@ -20,6 +25,9 @@ class App extends Component {
         <Instructions />
         {this.state.shows.map(x => (
           <Show id={x.id} name={x.name} episodes_seen={x.episodes_seen} />
+        ))}
+        {this.complete.status.map(x => (
+          <Show success={x.success} />
         ))}
       </div>
     )
