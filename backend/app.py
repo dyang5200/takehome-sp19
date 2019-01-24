@@ -53,7 +53,17 @@ def mirror(name):
 
 @app.route("/shows", methods=['GET'])
 def get_all_shows():
-    return create_response({"shows": db.get('shows')})
+    try:
+        minEpisodes = request.args['minEpisodes']
+    except:
+        return create_response({"shows": db.get('shows')})
+    list_of_shows = []
+    for i in db.get('shows'):
+        if i["episodes_seen"] >= int(minEpisodes):
+            list_of_shows.append(i)
+    if len(list_of_shows) == 0:
+        return create_response(status=404, message="No shows with this many or more episodes.")
+    return create_response({"shows": list_of_shows})
 
 @app.route("/shows/<id>", methods=['DELETE'])
 def delete_show(id):
@@ -68,19 +78,7 @@ def delete_show(id):
 def get_show(id):
     if db.getById('shows', int(id)) is None:
         return create_response(status=404, message="No show with this id exists")
-    return db.getById('shows', int(id))
-    return create_response(message="Returned show")
-
-@app.route("/shows?minEpisodes=<episodes_seen>", methods=['GET'])
-def min_episodes(episodes_seen):
-    if episodes_seen == 0:
-        return create_response(status=404, message="No TV shows with 0 episodes.")
-    if db.getByMinEpisodes('shows', int(episodes_seen)) is None:
-        return create_response(status=404, message="No TV shows with more than this number of episodes.")
-    return db.getByMinEpisodes('shows', int(episodes_seen))
-
-"""
-~~~~~~~~~~~~ END API ~~~~~~~~~~~~
-"""
+    return create_response(db.getById('shows', int(id)))
+### ~~~~~~~~~~~~ END API ~~~~~~~~~~~~
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
