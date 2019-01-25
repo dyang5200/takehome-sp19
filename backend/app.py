@@ -83,12 +83,26 @@ def get_show(id):
 @app.route("/shows", methods=['POST'])
 def add_show():
     name = request.get_json().get('name', '')
-    episodes_seen = request.get_json().get('episodes seen','')
+    episodes_seen = request.get_json().get('episodes_seen','')
     if name == '' or episodes_seen == '':
         return create_response(status=422, message="Please provide both the name and the number of episodes watched for this new show")
-    new_show_dict = {"name": name, "episodes seen": episodes_seen}
+    new_show_dict = {"name": name, "episodes_seen": episodes_seen}
     new_show = db.create('shows', new_show_dict)
     return create_response({"added show": new_show}, status=201)
+
+@app.route("/shows/<id>", methods=['PUT'])
+def put_show(id):
+    if db.getById('shows', int(id)) is None:
+        return create_response(status=404, message="No show with this ID can be found.")
+    new_name = request.get_json().get('name', '')
+    new_episodes_seen = request.get_json().get('episodes_seen', '')
+    if new_name == '' and new_episodes_seen != '':
+        db.updateById('shows', int(id), {"episodes_seen": new_episodes_seen} )
+    elif new_name != '' and new_episodes_seen == '':
+        db.updateById('shows', int(id), {"name": new_name})
+    elif new_name != '' and new_episodes_seen != '':
+        db.updateById('shows', int(id), {"name": new_name, "episodes_seen": new_episodes_seen})
+    return create_response({"updated show": db.getById('shows', int(id))})   
 
 ### ~~~~~~~~~~~~ END API ~~~~~~~~~~~~
 if __name__ == "__main__":
