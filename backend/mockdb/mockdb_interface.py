@@ -11,9 +11,6 @@ def get(type):
 def getById(type, id):
     return next((i for i in get(type) if i["id"] == id), None)
 
-def getByMinEpisodes(type, episodes_seen):
-    return next((i for i in get(type) if i["episodes_seen"] >= episodes_seen), None)
-
 def create(type, payload):
     last_id = max([i["id"] for i in get(type)])
     new_id = last_id + 1
