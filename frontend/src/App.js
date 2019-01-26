@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Instructions from './Instructions'
+import Counter from './Counter'
 import Show from './Show'
 
 class App extends Component {
@@ -12,23 +13,24 @@ class App extends Component {
         {id: 3, name: "Black Mirror", episodes_seen: 3},
       ]
     }
-    this.complete = {
-      status: [
-        {success: true}
-      ]
-    }
+  }
+
+  isComplete = () => {
+    return this.props.complete
   }
 
   render() {
     return (
       <div className="App">
-        <Instructions />
+        <Instructions>
         {this.state.shows.map(x => (
           <Show id={x.id} name={x.name} episodes_seen={x.episodes_seen} />
         ))}
-        {this.complete.status.map(x => (
-          <Show success={x.success} />
-        ))}
+        </Instructions>
+        <Counter>
+          
+        </Counter>
+        
       </div>
     )
   }
