@@ -17,7 +17,7 @@ class App extends Component {
 
   isComplete = () => {
     return this.props.complete
-  }
+  };
 
   render() {
     return (
@@ -28,8 +28,9 @@ class App extends Component {
         ))}
         </Instructions>
         <Counter>
-          
         </Counter>
+
+        <Show/>
         
       </div>
     )

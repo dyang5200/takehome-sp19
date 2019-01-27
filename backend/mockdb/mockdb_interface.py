@@ -18,7 +18,6 @@ def create(type, payload):
     db_state[type].append(payload)
     return payload
 
-
 def updateById(type, id, update_values):
     item = getById(type, id)
     if item is None:
