@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 class Counter extends Component {
-  constructor(props, initialCount) {
+  constructor(props) {
     super(props)
-    this.state = {count: 0}
+    this.state = {count: this.props.initialCount}
   }
 
   incrementCount = () => {
@@ -18,7 +18,7 @@ class Counter extends Component {
     return (
       <div style = {{textAlign: 'center'}}>
         <label
-          style = {{fontSize: '5em', display: 'block'}}>
+          style = {{fontSize: '10em', display: 'block'}}>
         </label>
         <p> {'Count: '} {this.state.count}</p>
         <button onClick={this.incrementCount}>Increment Count</button>
