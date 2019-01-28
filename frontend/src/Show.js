@@ -12,7 +12,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div style = {{textAlign: 'center'}}>
         <p>{'Show: '} {this.props.name}</p>
         <Counter initialCount = {this.props.episodes_seen}>
         </Counter>
